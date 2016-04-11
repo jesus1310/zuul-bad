@@ -19,7 +19,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-        
+
     /**
      * Create the game and initialise its internal map.
      */
@@ -34,23 +34,27 @@ public class Game
      */
     private void createRooms()
     {
-        Room outside, theater, pub, lab, office;
-      
-        // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theater = new Room("in a lecture theater");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
-        
-        // initialise room exits
-        outside.setExits(null, theater, lab, pub);
-        theater.setExits(null, null, null, outside);
-        pub.setExits(null, outside, null, null);
-        lab.setExits(outside, office, null, null);
-        office.setExits(null, null, null, lab);
+        Room inicial, oeste, suroeste, este, noreste, sureste, cruce;
 
-        currentRoom = outside;  // start game outside
+        // create the rooms
+        inicial = new Room("en la sala inicial");
+        oeste = new Room("en la sala oeste");
+        suroeste = new Room("en la sala suroeste");
+        este = new Room("en la sala este");
+        noreste = new Room("en la sala noreste");
+        sureste = new Room("en la sala sureste");
+        cruce = new Room("en un cruce de pasillos");
+
+        // initialise room exits
+        inicial.setExits(null, cruce, null, oeste);
+        oeste.setExits(null, inicial, suroeste, null);
+        suroeste.setExits(oeste, null, null, null);
+        este.setExits(null, null, null, cruce);
+        noreste.setExits(null, null, cruce, null);
+        sureste.setExits(cruce, null, null, null);
+        cruce.setExits(noreste, este, sureste, inicial);
+
+        currentRoom = inicial;  // start game outside
     }
 
     /**
@@ -62,7 +66,7 @@ public class Game
 
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over.
-                
+
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
@@ -81,7 +85,7 @@ public class Game
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        System.out.println("You are " + currentRoom.getDescription());
+        System.out.println("Estás " + currentRoom.getDescription());
         System.out.print("Exits: ");
         if(currentRoom.northExit != null) {
             System.out.print("north ");
@@ -176,7 +180,7 @@ public class Game
         }
         else {
             currentRoom = nextRoom;
-            System.out.println("You are " + currentRoom.getDescription());
+            System.out.println("Estás " + currentRoom.getDescription());
             System.out.print("Exits: ");
             if(currentRoom.northExit != null) {
                 System.out.print("north ");
