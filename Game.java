@@ -34,7 +34,7 @@ public class Game
      */
     private void createRooms()
     {
-        Room inicial, oeste, suroeste, este, noreste, sureste, cruce;
+        Room inicial, oeste, suroeste, este, noreste, sureste, cruce, salida;
 
         // create the rooms
         inicial = new Room("en la sala inicial");
@@ -44,6 +44,7 @@ public class Game
         noreste = new Room("en la sala noreste");
         sureste = new Room("en la sala sureste");
         cruce = new Room("en un cruce de pasillos");
+        salida = new Room("fuera. Has encontrado la salida");
 
         // initialise room exits
         inicial.setExits(null, cruce, null, oeste);
@@ -51,7 +52,7 @@ public class Game
         suroeste.setExits(oeste, null, null, null);
         este.setExits(null, null, null, cruce);
         noreste.setExits(null, null, cruce, null);
-        sureste.setExits(cruce, null, null, null);
+        sureste.setExits(cruce, null, null, salida);
         cruce.setExits(noreste, este, sureste, inicial);
 
         currentRoom = inicial;  // start game outside
