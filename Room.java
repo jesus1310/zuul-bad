@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 /**
  * Class Room - a room in an adventure game.
  *
@@ -15,12 +17,7 @@
 public class Room 
 {
     private String description;
-    private Room northExit;
-    private Room southExit;
-    private Room eastExit;
-    private Room westExit;
-    private Room southeastExit;
-    private Room northwestExit;
+    private HashMap<String,Room> salidas;
 
     /**
      * Create a room described "description". Initially, it has
@@ -31,6 +28,7 @@ public class Room
     public Room(String description) 
     {
         this.description = description;
+        salidas = new HashMap<>();
     }
 
     /**
@@ -44,17 +42,17 @@ public class Room
     public void setExits(Room north, Room east, Room south, Room west, Room southeast, Room northwest) 
     {
         if(north != null)
-            northExit = north;
+            salidas.put("north",north);
         if(east != null)
-            eastExit = east;
+            salidas.put("east",east);
         if(south != null)
-            southExit = south;
+            salidas.put("south",south);
         if(west != null)
-            westExit = west;
+            salidas.put("west",west);
         if(southeast != null)
-            southeastExit = southeast;
+            salidas.put("southeast",southeast);
         if(northwest != null)
-            northwestExit = northwest;
+            salidas.put("northwest",northwest);
     }
 
     /**
@@ -71,24 +69,7 @@ public class Room
      */
     public Room getExit(String salidaPosible){
         Room salida = null;
-        if(salidaPosible.equals("north")) {
-            salida = northExit;
-        }
-        if(salidaPosible.equals("east")) {
-            salida = eastExit;
-        }
-        if(salidaPosible.equals("south")) {
-            salida = southExit;
-        }
-        if(salidaPosible.equals("west")) {
-            salida = westExit;
-        }
-        if(salidaPosible.equals("southeast")) {
-            salida = southeastExit;
-        }
-        if(salidaPosible.equals("northwest")) {
-            salida = northwestExit;
-        }
+        salida = salidas.get(salidaPosible);
         return salida;
     }
 
@@ -118,7 +99,7 @@ public class Room
         if(getExit("northwest") != null){
             exitString += "northwest ";
         }
-        
+
         return exitString;
     }
 }
