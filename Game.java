@@ -47,14 +47,22 @@ public class Game
         salida = new Room("fuera. Has encontrado la salida. Puedes volver a entrar o salir del juego escribiendo 'quit'");
 
         // initialise room exits
-        inicial.setExits(null, cruce, null, oeste, sureste, null);
-        oeste.setExits(null, inicial, suroeste, null, null, null);
-        suroeste.setExits(oeste, null, null, null, null, null);
-        este.setExits(null, null, null, cruce, null, null);
-        noreste.setExits(null, null, cruce, null, null, null);
-        sureste.setExits(cruce, null, null, salida, null, inicial);
-        cruce.setExits(noreste, este, sureste, inicial, null, null);
-        salida.setExits(null, este, null, null, null, null);
+        inicial.setExit("west",oeste);
+        inicial.setExit("east",cruce);
+        inicial.setExit("southeast",sureste);
+        oeste.setExit("east",inicial);
+        oeste.setExit("south",suroeste);
+        suroeste.setExit("north",oeste);
+        este.setExit("west",cruce);
+        noreste.setExit("south",cruce);
+        sureste.setExit("north",cruce);
+        sureste.setExit("northwest",inicial);
+        sureste.setExit("west",salida);
+        cruce.setExit("north",noreste);
+        cruce.setExit("east",este);
+        cruce.setExit("south",sureste);
+        cruce.setExit("west",inicial);
+        salida.setExit("east",sureste);
         currentRoom = inicial;  // start game outside
     }
 
