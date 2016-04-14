@@ -67,25 +67,9 @@ public class Room
      */
     public String getExitString(){
         String exitString = "";
-        if(getExit("north") != null) {
-            exitString += "north ";
+        for (String key : salidas.keySet()) {
+            exitString += key + " ";
         }
-        if(getExit("east") != null) {
-            exitString += "east ";
-        }
-        if(getExit("south") != null) {
-            exitString += "south ";
-        }
-        if(getExit("west") != null) {
-            exitString += "west ";
-        }
-        if(getExit("southeast") != null){
-            exitString += "southeast ";
-        }
-        if(getExit("northwest") != null){
-            exitString += "northwest ";
-        }
-
         return exitString;
     }
 }
