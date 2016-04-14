@@ -49,18 +49,18 @@ public class Game
         // initialise room exits
         inicial.setExit("west",oeste);
         inicial.setExit("east",cruce);
-        inicial.setExit("southeast",sureste);
+        inicial.setExit("southwest",sureste);
         oeste.setExit("east",inicial);
         oeste.setExit("south",suroeste);
-        suroeste.setExit("north",oeste);
+        suroeste.setExit("norte",oeste);
         este.setExit("west",cruce);
         noreste.setExit("south",cruce);
-        sureste.setExit("north",cruce);
-        sureste.setExit("northwest",inicial);
+        sureste.setExit("norte",cruce);
+        sureste.setExit("noroeste",inicial);
         sureste.setExit("west",salida);
-        cruce.setExit("north",noreste);
+        cruce.setExit("norte",noreste);
         cruce.setExit("east",este);
-        cruce.setExit("south",sureste);
+        cruce.setExit("sur",sureste);
         cruce.setExit("west",inicial);
         salida.setExit("east",sureste);
         currentRoom = inicial;  // start game outside
@@ -190,8 +190,6 @@ public class Game
      * Método para evitar la repeticion de codigo
      */
     private void printLocationInfo(){
-        System.out.println("Estás " + currentRoom.getDescription());
-        System.out.print("Exits: ");
-        System.out.println(currentRoom.getExitString());
+        System.out.println(currentRoom.getLongDescription());
     }
 }
