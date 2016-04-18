@@ -37,14 +37,23 @@ public class Game
         Room inicial, oeste, suroeste, este, noreste, sureste, cruce, salida;
 
         // create the rooms
-        inicial = new Room("en la sala inicial", "café", 0.10f);
-        oeste = new Room("en la sala oeste", "linterna sin pilas", 0.50f);
-        suroeste = new Room("en la sala suroeste", "pilas", 0.25f);
-        este = new Room("en la sala este", "bolsa con comida", 2.5f);
-        noreste = new Room("en la sala noreste", "tarjeta para abrir puertas", 0.05f);
-        sureste = new Room("en la sala sureste", "portátil", 2f);
-        cruce = new Room("en un cruce de pasillos", "caja con periódicos", 5f);
+        inicial = new Room("en la sala inicial");
+        inicial.addObjeto(new Item("café", 0.10f));
+        oeste = new Room("en la sala oeste");
+        oeste.addObjeto(new Item("linterna sin pilas", 0.50f));
+        suroeste = new Room("en la sala suroeste");
+        suroeste.addObjeto(new Item("pilas", 0.25f));
+        este = new Room("en la sala este");
+        este.addObjeto(new Item("bolsa con comida", 2.5f));
+        noreste = new Room("en la sala noreste");
+        noreste.addObjeto(new Item("tarjeta para abrir puertas", 0.05f));
+        sureste = new Room("en la sala sureste");
+        sureste.addObjeto(new Item("portátil", 2f));
+        cruce = new Room("en un cruce de pasillos");
+        cruce.addObjeto(new Item("caja con periódicos", 5f));
         salida = new Room("fuera. Has encontrado la salida. Puedes volver a entrar o salir del juego escribiendo 'quit'");
+        salida.addObjeto(new Item("llaves para volver a entrar", 0.75f));
+        
 
         // initialise room exits
         inicial.setExit("west",oeste);

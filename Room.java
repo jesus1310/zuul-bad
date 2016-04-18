@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * Class Room - a room in an adventure game.
@@ -20,6 +21,7 @@ public class Room
     private HashMap<String,Room> salidas;
     private String nombreObjeto;
     private float pesoObjeto;
+    private ArrayList<Item> objetos;
 
     /**
      * Create a room described "description". Initially, it has
@@ -27,12 +29,11 @@ public class Room
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description,String nombreObjeto, float pesoObjeto) 
+    public Room(String description) 
     {
         this.description = description;
         salidas = new HashMap<>();
-        this.nombreObjeto = nombreObjeto;
-        this.pesoObjeto = pesoObjeto;
+        objetos = new ArrayList<>();
     }
 
     /**
@@ -76,7 +77,7 @@ public class Room
         }
         return exitString;
     }
-    
+
     /**
      * Return a long description of this room, of the form:
      *     You are in the 'name of room'
@@ -84,6 +85,18 @@ public class Room
      * @return A description of the room, including exits.
      */
     public String getLongDescription(){
-        return "Estás " + description + "\nSalidas posibles: " + getExitString() + "\nEn la sala hay " + nombreObjeto + ", pesa " + pesoObjeto + " KG";
+        String descripcion = "Estás " + description + "\nSalidas posibles: " + getExitString();
+        descripcion += "\nEn esta sala hay: ";
+        for (Item objetoEnSala : objetos){
+            descripcion += objetoEnSala.getNombreObjeto() + ", pesa " + objetoEnSala.getPesoObjeto(); 
+        }
+        return descripcion;
+    }
+
+    /**
+     * Método para añadir objetos a la lista
+     */
+    public void addObjeto(Item objeto){
+        objetos.add(objeto);
     }
 }
