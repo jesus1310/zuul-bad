@@ -12,7 +12,7 @@ public class Item
     /**
      * Constructor for objects of class Item
      */
-    public Item(String nombreObjeto, float peso)
+    public Item(String nombreObjeto, float pesoObjeto)
     {
         this.nombreObjeto = nombreObjeto;
         this.pesoObjeto = pesoObjeto;

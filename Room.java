@@ -88,7 +88,7 @@ public class Room
         String descripcion = "Estás " + description + "\nSalidas posibles: " + getExitString();
         descripcion += "\nEn esta sala hay: ";
         for (Item objetoEnSala : objetos){
-            descripcion += objetoEnSala.getNombreObjeto() + ", pesa " + objetoEnSala.getPesoObjeto(); 
+            descripcion += objetoEnSala.getNombreObjeto() + ", pesa " + objetoEnSala.getPesoObjeto() + " KG"; 
         }
         return descripcion;
     }
