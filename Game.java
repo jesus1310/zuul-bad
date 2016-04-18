@@ -37,13 +37,13 @@ public class Game
         Room inicial, oeste, suroeste, este, noreste, sureste, cruce, salida;
 
         // create the rooms
-        inicial = new Room("en la sala inicial");
-        oeste = new Room("en la sala oeste");
-        suroeste = new Room("en la sala suroeste");
-        este = new Room("en la sala este");
-        noreste = new Room("en la sala noreste");
-        sureste = new Room("en la sala sureste");
-        cruce = new Room("en un cruce de pasillos");
+        inicial = new Room("en la sala inicial", "café", 0.10f);
+        oeste = new Room("en la sala oeste", "linterna sin pilas", 0.50f);
+        suroeste = new Room("en la sala suroeste", "pilas", 0.25f);
+        este = new Room("en la sala este", "bolsa con comida", 2.5f);
+        noreste = new Room("en la sala noreste", "tarjeta para abrir puertas", 0.05f);
+        sureste = new Room("en la sala sureste", "portátil", 2f);
+        cruce = new Room("en un cruce de pasillos", "caja con periódicos", 5f);
         salida = new Room("fuera. Has encontrado la salida. Puedes volver a entrar o salir del juego escribiendo 'quit'");
 
         // initialise room exits
