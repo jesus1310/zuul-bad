@@ -62,4 +62,11 @@ public class Parser
             return new Command(null, word2); 
         }
     }
+
+    /**
+     * Metodo que devuelve todos los comandos disponibles.
+     */
+    public CommandWords getAllCommands(){
+        return commands;
+    }
 }
