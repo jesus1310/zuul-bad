@@ -19,6 +19,8 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+    private Room previousRoom;
+    private int contBack;
 
     /**
      * Create the game and initialise its internal map.
@@ -53,7 +55,6 @@ public class Game
         cruce.addObjeto(new Item("caja con periódicos", 5f));
         salida = new Room("fuera. Has encontrado la salida. Puedes volver a entrar o salir del juego escribiendo 'quit'");
         salida.addObjeto(new Item("llaves para volver a entrar", 0.75f));
-        
 
         // initialise room exits
         inicial.setExit("west",oeste);
@@ -64,15 +65,17 @@ public class Game
         suroeste.setExit("norte",oeste);
         este.setExit("west",cruce);
         noreste.setExit("south",cruce);
-        sureste.setExit("norte",cruce);
+        sureste.setExit("north",cruce);
         sureste.setExit("noroeste",inicial);
         sureste.setExit("west",salida);
-        cruce.setExit("norte",noreste);
+        cruce.setExit("north",noreste);
         cruce.setExit("east",este);
-        cruce.setExit("sur",sureste);
+        cruce.setExit("south",sureste);
         cruce.setExit("west",inicial);
         salida.setExit("east",sureste);
         currentRoom = inicial;  // start game outside
+        previousRoom = null;
+        contBack = 0;
     }
 
     /**
@@ -136,6 +139,16 @@ public class Game
         }
         else if (commandWord.equals("eat")) {
             System.out.println("You have eaten now and you are not hungry any more");
+        }        
+        else if (commandWord.equals("back")){
+            if (previousRoom != null && contBack > 0){
+                currentRoom = previousRoom;
+                printLocationInfo();
+                contBack = 0;
+            }
+            else {
+                System.out.println("No es posible volver a la localización anterior");
+            }
         }
 
         return wantToQuit;
@@ -179,6 +192,8 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
+            previousRoom = currentRoom;
+            contBack++;
             currentRoom = nextRoom;
             printLocationInfo();
             System.out.println();
