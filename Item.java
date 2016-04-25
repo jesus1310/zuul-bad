@@ -35,8 +35,8 @@ public class Item
     /**
      * Método para mostrar las caracteristicas del objeto
      */
-    public String muestraDatos(){
-        return "Nombre del objeto: " + nombreObjeto + "\nPeso del objeto: " + pesoObjeto;
+    public String toString(){
+        return "Nombre del objeto: " + nombreObjeto + "\nPeso del objeto: " + pesoObjeto + " KG";
     }
 }
 

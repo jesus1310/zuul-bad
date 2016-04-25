@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -21,6 +23,8 @@ public class Game
     private Room currentRoom;
     private Room previousRoom;
     private int contBack;
+    private Stack<Room> anteriores;
+    private boolean hayOtraHabitacion;
 
     /**
      * Create the game and initialise its internal map.
@@ -29,6 +33,8 @@ public class Game
     {
         createRooms();
         parser = new Parser();
+        anteriores = new Stack<Room>();
+        hayOtraHabitacion = false;
     }
 
     /**
@@ -129,7 +135,11 @@ public class Game
             printHelp();
         }
         else if (commandWord.equals("go")) {
+            previousRoom = currentRoom;
             goRoom(command);
+            if(previousRoom != currentRoom && hayOtraHabitacion){
+                anteriores.push(previousRoom);
+            }
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
@@ -141,13 +151,12 @@ public class Game
             System.out.println("You have eaten now and you are not hungry any more");
         }        
         else if (commandWord.equals("back")){
-            if (previousRoom != null && contBack > 0){
-                currentRoom = previousRoom;
+            if (!anteriores.empty()){
+                currentRoom = anteriores.pop();
                 printLocationInfo();
-                contBack = 0;
             }
             else {
-                System.out.println("No es posible volver a la localización anterior");
+                System.out.println("Has llegado al punto de partida, no puedes retroceder más");
             }
         }
 
@@ -190,6 +199,7 @@ public class Game
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
+            hayOtraHabitacion = false;
         }
         else {
             previousRoom = currentRoom;
@@ -197,6 +207,7 @@ public class Game
             currentRoom = nextRoom;
             printLocationInfo();
             System.out.println();
+            hayOtraHabitacion = true;
         }
     }
 
