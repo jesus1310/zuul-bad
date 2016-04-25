@@ -22,7 +22,6 @@ public class Game
     private Parser parser;
     private Room currentRoom;
     private Room previousRoom;
-    private int contBack;
     private Stack<Room> anteriores;
     private boolean hayOtraHabitacion;
 
@@ -81,7 +80,6 @@ public class Game
         salida.setExit("east",sureste);
         currentRoom = inicial;  // start game outside
         previousRoom = null;
-        contBack = 0;
     }
 
     /**
@@ -203,7 +201,6 @@ public class Game
         }
         else {
             previousRoom = currentRoom;
-            contBack++;
             currentRoom = nextRoom;
             printLocationInfo();
             System.out.println();
