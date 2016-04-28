@@ -20,20 +20,16 @@ import java.util.Stack;
 public class Game 
 {
     private Parser parser;
-    private Room currentRoom;
-    private Room previousRoom;
-    private Stack<Room> anteriores;
-    private boolean hayOtraHabitacion;
+    private Player jugador;
 
     /**
      * Create the game and initialise its internal map.
      */
     public Game() 
     {
-        createRooms();
         parser = new Parser();
-        anteriores = new Stack<Room>();
-        hayOtraHabitacion = false;
+        jugador = new Player();
+        createRooms();
     }
 
     /**
@@ -71,15 +67,14 @@ public class Game
         este.setExit("west",cruce);
         noreste.setExit("south",cruce);
         sureste.setExit("north",cruce);
-        sureste.setExit("noroeste",inicial);
+        sureste.setExit("northwest",inicial);
         sureste.setExit("west",salida);
         cruce.setExit("north",noreste);
         cruce.setExit("east",este);
         cruce.setExit("south",sureste);
         cruce.setExit("west",inicial);
         salida.setExit("east",sureste);
-        currentRoom = inicial;  // start game outside
-        previousRoom = null;
+        jugador.setCurrentRoom(inicial);  // start game outside
     }
 
     /**
@@ -110,7 +105,7 @@ public class Game
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        printLocationInfo();
+        jugador.printLocationInfo();
         System.out.println();
     }
 
@@ -133,29 +128,19 @@ public class Game
             printHelp();
         }
         else if (commandWord.equals("go")) {
-            previousRoom = currentRoom;
-            goRoom(command);
-            if(previousRoom != currentRoom && hayOtraHabitacion){
-                anteriores.push(previousRoom);
-            }
+            jugador.goRoom(command);
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
         else if (commandWord.equals("look")){
-            printLocationInfo();
+            jugador.printLocationInfo();
         }
         else if (commandWord.equals("eat")) {
             System.out.println("You have eaten now and you are not hungry any more");
         }        
         else if (commandWord.equals("back")){
-            if (!anteriores.empty()){
-                currentRoom = anteriores.pop();
-                printLocationInfo();
-            }
-            else {
-                System.out.println("Has llegado al punto de partida, no puedes retroceder más");
-            }
+            jugador.backLastRoom();
         }
 
         return wantToQuit;
@@ -178,37 +163,6 @@ public class Game
     }
 
     /** 
-     * Try to go in one direction. If there is an exit, enter
-     * the new room, otherwise print an error message.
-     */
-    private void goRoom(Command command) 
-    {
-        if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("Go where?");
-            return;
-        }
-
-        String direction = command.getSecondWord();
-
-        // Try to leave current room.
-        Room nextRoom = null;
-        nextRoom = currentRoom.getExit(direction);
-
-        if (nextRoom == null) {
-            System.out.println("There is no door!");
-            hayOtraHabitacion = false;
-        }
-        else {
-            previousRoom = currentRoom;
-            currentRoom = nextRoom;
-            printLocationInfo();
-            System.out.println();
-            hayOtraHabitacion = true;
-        }
-    }
-
-    /** 
      * "Quit" was entered. Check the rest of the command to see
      * whether we really quit the game.
      * @return true, if this command quits the game, false otherwise.
@@ -224,10 +178,4 @@ public class Game
         }
     }
 
-    /**
-     * Método para evitar la repeticion de codigo
-     */
-    private void printLocationInfo(){
-        System.out.println(currentRoom.getLongDescription());
-    }
 }
