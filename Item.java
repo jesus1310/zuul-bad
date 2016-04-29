@@ -8,14 +8,16 @@ public class Item
 {
     private String nombreObjeto;
     private float pesoObjeto;
+    private boolean puedoCoger;
 
     /**
      * Constructor for objects of class Item
      */
-    public Item(String nombreObjeto, float pesoObjeto)
+    public Item(String nombreObjeto, float pesoObjeto, boolean puedoCoger)
     {
         this.nombreObjeto = nombreObjeto;
         this.pesoObjeto = pesoObjeto;
+        this.puedoCoger = puedoCoger;
     }
 
     /**
@@ -30,6 +32,13 @@ public class Item
      */
     public float getPesoObjeto(){
         return pesoObjeto;
+    }
+    
+    /**
+     * Método que nos dice si se puede coger el objeto
+     */
+    public boolean sePuedeCoger(){
+        return puedoCoger;
     }
     
     /**

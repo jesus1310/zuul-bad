@@ -86,7 +86,13 @@ public class Room
      */
     public String getLongDescription(){
         String descripcion = "Estás " + description + "\nSalidas posibles: " + getExitString();
-        descripcion += "\nEn esta sala hay: ";
+        if (objetos.size() != 0){
+            descripcion += "\nEn esta sala hay: ";
+        }
+        else {
+            descripcion += "\nEn esta sala no hay nada";
+        }
+
         for (Item objetoEnSala : objetos){
             descripcion += objetoEnSala.toString(); 
         }
@@ -98,5 +104,34 @@ public class Room
      */
     public void addObjeto(Item objeto){
         objetos.add(objeto);
+    }
+
+    /**
+     * Metodo que busca un objeto en la habitacion actual
+     */
+    public Item buscarItem(String descripcion){
+        boolean itemEncontrado = false;
+        Item objeto = null;
+        for (int i = 0; i < objetos.size() && !itemEncontrado; i++){
+            if(objetos.get(i).getNombreObjeto().equals(descripcion)){
+                objeto = objetos.get(i);
+                itemEncontrado = true;
+            }
+        }
+        return objeto;
+    }
+
+    /**
+     * Metodo que busca un objeto en la habitacion actual
+     */
+    public void borrarItem(Item item){
+        boolean itemEncontrado = false;
+        Item objeto = null;
+        for (int i = 0; i < objetos.size() && !itemEncontrado; i++){
+            if(objetos.get(i) == item){
+                objeto = objetos.remove(i);
+                itemEncontrado = true;
+            }
+        }
     }
 }
