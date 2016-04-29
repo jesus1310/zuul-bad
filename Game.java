@@ -41,21 +41,21 @@ public class Game
 
         // create the rooms
         inicial = new Room("en la sala inicial");
-        inicial.addObjeto(new Item("café", 0.10f));
+        inicial.addObjeto(new Item("cafe", 0.10f, true));
         oeste = new Room("en la sala oeste");
-        oeste.addObjeto(new Item("linterna sin pilas", 0.50f));
+        oeste.addObjeto(new Item("linterna", 0.50f, true));
         suroeste = new Room("en la sala suroeste");
-        suroeste.addObjeto(new Item("pilas", 0.25f));
+        suroeste.addObjeto(new Item("pilas", 0.25f, true));
         este = new Room("en la sala este");
-        este.addObjeto(new Item("bolsa con comida", 2.5f));
+        este.addObjeto(new Item("comida", 2.5f, true));
         noreste = new Room("en la sala noreste");
-        noreste.addObjeto(new Item("tarjeta para abrir puertas", 0.05f));
+        noreste.addObjeto(new Item("tarjeta", 0.05f, true));
         sureste = new Room("en la sala sureste");
-        sureste.addObjeto(new Item("portátil", 2f));
+        sureste.addObjeto(new Item("portatil", 2f, true));
         cruce = new Room("en un cruce de pasillos");
-        cruce.addObjeto(new Item("caja con periódicos", 5f));
+        cruce.addObjeto(new Item("estanteria", 15f, false));
         salida = new Room("fuera. Has encontrado la salida. Puedes volver a entrar o salir del juego escribiendo 'quit'");
-        salida.addObjeto(new Item("llaves para volver a entrar", 0.75f));
+        salida.addObjeto(new Item("llaves", 0.75f, true));
 
         // initialise room exits
         inicial.setExit("west",oeste);
@@ -141,6 +141,15 @@ public class Game
         }        
         else if (commandWord.equals("back")){
             jugador.backLastRoom();
+        }
+        else if (commandWord.equals("take")) {
+            jugador.takeItem(command.getSecondWord());
+        }        
+        else if (commandWord.equals("drop")){
+            jugador.dropItem(command.getSecondWord());
+        }
+        else if (commandWord.equals("items")){
+            jugador.muestraInventario();
         }
 
         return wantToQuit;

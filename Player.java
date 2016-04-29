@@ -11,6 +11,9 @@ public class Player
 {
     private Room currentRoom;
     private Stack<Room> anteriores;
+    public static final float PESO_MAXIMO = 4;
+    private float pesoActual;
+    private ArrayList<Item> mochila;
 
     /**
      * Constructor for objects of class Player
@@ -19,6 +22,8 @@ public class Player
     {
         currentRoom = null;
         anteriores = new Stack<Room>();
+        mochila = new ArrayList<>();
+        pesoActual = 0;
     }
 
     /** 
@@ -77,6 +82,52 @@ public class Player
         else {
             System.out.println("Has llegado al punto de partida, no puedes retroceder más");
             printLocationInfo();
+        }
+    }
+
+    /**
+     * Método para coger un objeto de la sala en la que nos encontramos
+     */
+    public void takeItem(String nombreItem){
+        Item itemEncontrado = currentRoom.buscarItem(nombreItem);
+        if (pesoActual < PESO_MAXIMO - itemEncontrado.getPesoObjeto() && itemEncontrado.sePuedeCoger()){
+            mochila.add(itemEncontrado);
+            currentRoom.borrarItem(itemEncontrado);
+            pesoActual += itemEncontrado.getPesoObjeto();
+        }
+        else if (pesoActual + itemEncontrado.getPesoObjeto() >= PESO_MAXIMO){
+            System.out.println("No se puede coger el objeto de esta sala porque sobrepasarías el peso máximo");
+        }
+        else if (!itemEncontrado.sePuedeCoger()){
+            System.out.println("No se puede coger el objeto de esta sala porque está anclado a la pared");
+        }
+    }
+
+    /**
+     * Método para dejar un objeto en la sala en la que nos encontramos
+     */
+    public void dropItem(String nombreItem){
+        for (int i = 0; i < mochila.size(); i++){
+            if (mochila.get(i).getNombreObjeto().equals(nombreItem)){
+                currentRoom.addObjeto(mochila.get(i));
+                pesoActual -= mochila.get(i).getPesoObjeto();
+                mochila.remove(i);
+            }
+        }
+    }
+
+    /**
+     * Método para mostrar inventario
+     */
+    public void muestraInventario(){
+        if (mochila.size()>0){
+            for (Item objeto : mochila){
+                System.out.println(objeto.toString() + "\n");
+            } 
+            System.out.println(pesoActual);
+        }
+        else {
+            System.out.println("No tienes ningún objeto en la mochila");
         }
     }
 }
