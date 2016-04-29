@@ -54,4 +54,18 @@ public class CommandWords
         }
         System.out.println(cadena);
     }
+
+    /**
+     * Return the object Option associated with a word.
+     * @param commandWord The word to look up (as a string).
+     * @return the object Option correspondng to the paramater commandWord, or the object Option.UNKNOWN
+     *         if it is not a valid command word
+     */
+    public Option getCommandWord(String commandWord){
+        Option valorDevuelto = Option.UNKNOWN;
+        if (comandos.containsKey(commandWord)){
+            valorDevuelto = comandos.get(commandWord);
+        }
+        return valorDevuelto;
+    }
 }
