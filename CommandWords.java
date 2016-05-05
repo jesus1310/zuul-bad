@@ -1,4 +1,4 @@
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * This class is part of the "World of Zuul" application. 
@@ -13,25 +13,24 @@ import java.util.HashMap;
 
 public class CommandWords
 {
-    // a constant array that holds all valid command words
-    private HashMap<String,Option> comandos;
+    private ArrayList<Option> comandos;
 
     /**
      * Constructor - initialise the command words.
      */
     public CommandWords()
     {
-        comandos = new HashMap<String,Option>();
-        comandos.put("andare",Option.GO);
-        comandos.put("smettere",Option.QUIT);
-        comandos.put("aiuto",Option.HELP);
-        comandos.put("guarda",Option.LOOK);
-        comandos.put("mangiare",Option.EAT);
-        comandos.put("indietro",Option.BACK);
-        comandos.put("prendere",Option.TAKE);
-        comandos.put("farCadere",Option.DROP);
-        comandos.put("elementi",Option.ITEMS);
-        comandos.put("unknown",Option.UNKNOWN);
+        comandos = new ArrayList<Option>();
+        comandos.add(Option.GO);
+        comandos.add(Option.QUIT);
+        comandos.add(Option.HELP);
+        comandos.add(Option.LOOK);
+        comandos.add(Option.EAT);
+        comandos.add(Option.BACK);
+        comandos.add(Option.TAKE);
+        comandos.add(Option.DROP);
+        comandos.add(Option.ITEMS);
+        comandos.add(Option.UNKNOWN);
     }
 
     /**
@@ -41,16 +40,22 @@ public class CommandWords
      */
     public boolean isCommand(String aString)
     {
-        return comandos.containsKey(aString);
+        boolean comandoEncontrado = false;
+        for (int i = 0; i < comandos.size() && !comandoEncontrado; i++){
+            if (comandos.get(i).getComando().equals(aString)){
+                comandoEncontrado = true;
+            }
+        }
+        return comandoEncontrado;
     }
 
     /**
      * Print all valid commands to System.out
      */
     public void showAll(){
-        String cadena = "";
-        for (String key : comandos.keySet()) {
-            cadena += key + " ";
+        String cadena = "Comandos: ";
+        for (Option option : comandos) {
+            cadena += option.getComando() + ", ";
         }
         System.out.println(cadena);
     }
@@ -63,8 +68,12 @@ public class CommandWords
      */
     public Option getCommandWord(String commandWord){
         Option valorDevuelto = Option.UNKNOWN;
-        if (comandos.containsKey(commandWord)){
-            valorDevuelto = comandos.get(commandWord);
+        boolean comandoEncontrado = false;
+        for (int i = 0; i < comandos.size() && !comandoEncontrado; i++){
+            if (comandos.get(i).getComando().equals(commandWord)){
+                comandoEncontrado = true;
+                valorDevuelto = comandos.get(i);
+            }
         }
         return valorDevuelto;
     }
