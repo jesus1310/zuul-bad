@@ -1,4 +1,5 @@
 import java.util.Stack;
+import java.util.Random;
 
 /**
  *  This class is the main class of the "World of Zuul" application. 
@@ -40,7 +41,7 @@ public class Game
     private void createRooms()
     {
         Room inicial, oeste, suroeste, este, noreste, sureste, cruce, salida;
-
+        
         // create the rooms
         inicial = new Room("en la sala inicial");
         inicial.addObjeto(new Item("cafe", 0.10f, true));
@@ -65,7 +66,7 @@ public class Game
         inicial.setExit("southwest",sureste);
         oeste.setExit("east",inicial);
         oeste.setExit("south",suroeste);
-        suroeste.setExit("norte",oeste);
+        suroeste.setExit("north",oeste);
         este.setExit("west",cruce);
         noreste.setExit("south",cruce);
         sureste.setExit("north",cruce);
@@ -76,6 +77,7 @@ public class Game
         cruce.setExit("south",sureste);
         cruce.setExit("west",inicial);
         salida.setExit("east",sureste);
+
         jugador.setCurrentRoom(inicial);  // start game outside
         guardiaSeguridad.setCurrentRoom(noreste);
         guardiaSeguridad.takeItem("tarjeta");
@@ -135,6 +137,7 @@ public class Game
 
             case GO:
             jugador.goRoom(command);
+            guardiaSeguridad.movimientoAleatorio();
             break;
 
             case QUIT:
@@ -209,5 +212,4 @@ public class Game
             return true;  // signal that we want to quit
         }
     }
-
 }

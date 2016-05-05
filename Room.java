@@ -73,7 +73,7 @@ public class Room
     public String getExitString(){
         String exitString = "";
         for (String key : salidas.keySet()) {
-            exitString += key + " ";
+            exitString += key + ", ";
         }
         return exitString;
     }
