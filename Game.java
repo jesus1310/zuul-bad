@@ -21,6 +21,7 @@ public class Game
 {
     private Parser parser;
     private Player jugador;
+    private Player guardiaSeguridad;
 
     /**
      * Create the game and initialise its internal map.
@@ -29,6 +30,7 @@ public class Game
     {
         parser = new Parser();
         jugador = new Player();
+        guardiaSeguridad = new Player();
         createRooms();
     }
 
@@ -54,7 +56,7 @@ public class Game
         sureste.addObjeto(new Item("portatil", 2f, true));
         cruce = new Room("en un cruce de pasillos");
         cruce.addObjeto(new Item("estanteria", 15f, false));
-        salida = new Room("fuera. Has encontrado la salida. Puedes volver a entrar o salir del juego escribiendo 'quit'");
+        salida = new Room("fuera. Has encontrado la salida. Puedes volver a entrar o salir del juego escribiendo '" + Option.QUIT + "'");
         salida.addObjeto(new Item("llaves", 0.75f, true));
 
         // initialise room exits
@@ -75,6 +77,8 @@ public class Game
         cruce.setExit("west",inicial);
         salida.setExit("east",sureste);
         jugador.setCurrentRoom(inicial);  // start game outside
+        guardiaSeguridad.setCurrentRoom(noreste);
+        guardiaSeguridad.takeItem("tarjeta");
     }
 
     /**
@@ -159,6 +163,11 @@ public class Game
 
             case ITEMS:
             jugador.muestraInventario();
+            break;
+            
+            case ASK:
+            guardiaSeguridad.dropItem("tarjeta");
+            jugador.takeItem("tarjeta");
             break;
 
             default:
