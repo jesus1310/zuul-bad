@@ -151,4 +151,11 @@ public class Player
         String[] listaSalidas = currentRoom.getExitString().split(", ");
         setCurrentRoom(currentRoom.getExit(listaSalidas[rnd.nextInt(listaSalidas.length)]));
     }
+    
+    /**
+     * Método que muestra la habitacion en la que se encuentra el jugador
+     */
+    public Room getCurrentRoom(){
+        return currentRoom;
+    }
 }

@@ -63,7 +63,7 @@ public class Game
         // initialise room exits
         inicial.setExit("west",oeste);
         inicial.setExit("east",cruce);
-        inicial.setExit("southwest",sureste);
+        inicial.setExit("southeast",sureste);
         oeste.setExit("east",inicial);
         oeste.setExit("south",suroeste);
         suroeste.setExit("north",oeste);
@@ -79,8 +79,8 @@ public class Game
         salida.setExit("east",sureste);
 
         jugador.setCurrentRoom(inicial);  // start game outside
-        guardiaSeguridad.setCurrentRoom(noreste);
-        guardiaSeguridad.takeItem("tarjeta");
+        guardiaSeguridad.setCurrentRoom(salida);
+        guardiaSeguridad.takeItem("llaves");
     }
 
     /**
@@ -138,6 +138,10 @@ public class Game
             case GO:
             jugador.goRoom(command);
             guardiaSeguridad.movimientoAleatorio();
+            if (jugador.getCurrentRoom() == guardiaSeguridad.getCurrentRoom()){
+                System.out.println("Has encontrado al guardia de seguridad");
+                System.out.println("Puedes pedirle las llaves con el comando '" + Option.ASK + "'");
+            }
             break;
 
             case QUIT:
@@ -169,8 +173,9 @@ public class Game
             break;
             
             case ASK:
-            guardiaSeguridad.dropItem("tarjeta");
-            jugador.takeItem("tarjeta");
+            guardiaSeguridad.dropItem("llaves");
+            jugador.takeItem("llaves");
+            System.out.println("Ya tienes las llaves, ahora puedes salir");
             break;
 
             default:
