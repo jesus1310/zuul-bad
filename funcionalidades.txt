@@ -1,0 +1,5 @@
+1.- Se crea un objeto Player llamado guardiaSeguridad que tendrá las llaves y se moverá por el mapa. El jugador tendrá un número de turnos para encontrarle, pedirle las llaves (comando nuevo que hará que pierda un turno) y salir.
+Si se acaban los turnos y no ha salido pierde.
+
+2.- El jugador tiene un atributo barraDeEnergía que disminuye en función del peso que lleve(2 x peso que lleva en ese momento).
+Podrá parar para recuperarse utilizando el comando eat, por lo que perderá un turno. Si la barra llega a 0 se quedará dormido y perderá.
