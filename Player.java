@@ -47,6 +47,9 @@ public class Player
         if (nextRoom == null) {
             System.out.println("There is no door!");
         }
+        else if (!puedeSalir() && currentRoom.getDescription().contains("sureste") && direction.equals("west")){
+            System.out.println("No puedes salir hasta que tengas las llaves");
+        }
         else {
             anteriores.push(currentRoom);
             currentRoom = nextRoom;
@@ -151,11 +154,25 @@ public class Player
         String[] listaSalidas = currentRoom.getExitString().split(", ");
         setCurrentRoom(currentRoom.getExit(listaSalidas[rnd.nextInt(listaSalidas.length)]));
     }
-    
+
     /**
      * Método que muestra la habitacion en la que se encuentra el jugador
      */
     public Room getCurrentRoom(){
         return currentRoom;
+    }
+    
+    /**
+     * Método que devuelve si el jugador puede salir
+     */
+    public boolean puedeSalir(){
+        boolean puedeSalir = false;
+        int i = 0;
+        for (Item item : mochila){
+            if (mochila.get(i).getNombreObjeto().equals("llaves")){
+                puedeSalir = true;
+            }
+        }
+        return puedeSalir;
     }
 }

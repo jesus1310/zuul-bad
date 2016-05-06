@@ -41,7 +41,7 @@ public class Game
     private void createRooms()
     {
         Room inicial, oeste, suroeste, este, noreste, sureste, cruce, salida;
-        
+
         // create the rooms
         inicial = new Room("en la sala inicial");
         inicial.addObjeto(new Item("cafe", 0.10f, true));
@@ -140,7 +140,7 @@ public class Game
             guardiaSeguridad.movimientoAleatorio();
             if (jugador.getCurrentRoom() == guardiaSeguridad.getCurrentRoom()){
                 System.out.println("Has encontrado al guardia de seguridad");
-                System.out.println("Puedes pedirle las llaves con el comando '" + Option.ASK + "'");
+                System.out.println("Puedes pedirle las llaves con el comando '" + Option.ASK + "'\n");
             }
             break;
 
@@ -171,7 +171,7 @@ public class Game
             case ITEMS:
             jugador.muestraInventario();
             break;
-            
+
             case ASK:
             guardiaSeguridad.dropItem("llaves");
             jugador.takeItem("llaves");
