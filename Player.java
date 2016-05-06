@@ -151,7 +151,7 @@ public class Player
      */
     public void movimientoAleatorio(){
         Random rnd = new Random();
-        String[] listaSalidas = currentRoom.getExitString().split(", ");
+        String[] listaSalidas = currentRoom.getExitString().split(" ");
         setCurrentRoom(currentRoom.getExit(listaSalidas[rnd.nextInt(listaSalidas.length)]));
     }
 
