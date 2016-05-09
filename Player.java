@@ -55,11 +55,10 @@ public class Player
         else {
             anteriores.push(currentRoom);
             currentRoom = nextRoom;
+            energia -= pesoActual * 2;
             printLocationInfo();
             System.out.println();
         }
-        energia -= pesoActual * 2;
-        System.out.println("La energía está al " + energia * 10 + "%");
     }
 
     /**
@@ -86,6 +85,8 @@ public class Player
         if (!anteriores.empty()){
             currentRoom = anteriores.pop();
             printLocationInfo();
+            energia -= pesoActual * 2;
+            System.out.println("La energía está al " + energia * 10 + "%");
         }
         else {
             System.out.println("Has llegado al punto de partida, no puedes retroceder más");
@@ -99,16 +100,18 @@ public class Player
     public void takeItem(String nombreItem){
         if (nombreItem != null){
             Item itemEncontrado = currentRoom.buscarItem(nombreItem);
-            if (pesoActual < PESO_MAXIMO - itemEncontrado.getPesoObjeto() && itemEncontrado.sePuedeCoger()){
-                mochila.add(itemEncontrado);
-                currentRoom.borrarItem(itemEncontrado);
-                pesoActual += itemEncontrado.getPesoObjeto();
-            }
-            else if (pesoActual + itemEncontrado.getPesoObjeto() >= PESO_MAXIMO && itemEncontrado.sePuedeCoger()){
-                System.out.println("No se puede coger el objeto de esta sala porque sobrepasarías el peso máximo");
-            }
-            else if (!itemEncontrado.sePuedeCoger()){
-                System.out.println("No se puede coger el objeto de esta sala porque está anclado a la pared");
+            if (itemEncontrado != null){
+                if (pesoActual < PESO_MAXIMO - itemEncontrado.getPesoObjeto() && itemEncontrado.sePuedeCoger()){
+                    mochila.add(itemEncontrado);
+                    currentRoom.borrarItem(itemEncontrado);
+                    pesoActual += itemEncontrado.getPesoObjeto();
+                }
+                else if (pesoActual + itemEncontrado.getPesoObjeto() >= PESO_MAXIMO && itemEncontrado.sePuedeCoger()){
+                    System.out.println("No se puede coger el objeto de esta sala porque sobrepasarías el peso máximo");
+                }
+                else if (!itemEncontrado.sePuedeCoger()){
+                    System.out.println("No se puede coger el objeto de esta sala porque está anclado a la pared");
+                }
             }
         }
         else {
@@ -165,25 +168,31 @@ public class Player
     public Room getCurrentRoom(){
         return currentRoom;
     }
-    
+
     /**
      * Método que devuelve si el jugador puede salir
      */
     public boolean puedeSalir(){
         boolean puedeSalir = false;
-        int i = 0;
-        for (Item item : mochila){
+        for (int i = 0; i < mochila.size(); i++){
             if (mochila.get(i).getNombreObjeto().equals("llaves")){
                 puedeSalir = true;
             }
         }
         return puedeSalir;
     }
-    
+
     /**
      * Método que devuelve la energia que le queda al jugador
      */
     public float getEnergiaRestante(){
         return energia;
+    }
+
+    /**
+     * Método que recupera la energía del jugador
+     */
+    public void comer(){
+        energia = 10;
     }
 }
