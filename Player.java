@@ -15,6 +15,7 @@ public class Player
     public static final float PESO_MAXIMO = 4;
     private float pesoActual;
     private ArrayList<Item> mochila;
+    private float energia;
 
     /**
      * Constructor for objects of class Player
@@ -25,6 +26,7 @@ public class Player
         anteriores = new Stack<Room>();
         mochila = new ArrayList<>();
         pesoActual = 0;
+        energia = 10;
     }
 
     /** 
@@ -56,6 +58,8 @@ public class Player
             printLocationInfo();
             System.out.println();
         }
+        energia -= pesoActual * 2;
+        System.out.println("La energía está al " + energia * 10 + "%");
     }
 
     /**
@@ -174,5 +178,12 @@ public class Player
             }
         }
         return puedeSalir;
+    }
+    
+    /**
+     * Método que devuelve la energia que le queda al jugador
+     */
+    public float getEnergiaRestante(){
+        return energia;
     }
 }
