@@ -30,6 +30,7 @@ public class CommandWords
         comandos.add(Option.TAKE);
         comandos.add(Option.DROP);
         comandos.add(Option.ITEMS);
+        comandos.add(Option.ASK);
         comandos.add(Option.UNKNOWN);
     }
 

@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.Random;
 
 /**
  * Write a description of class Player here.
@@ -45,6 +46,9 @@ public class Player
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
+        }
+        else if (!puedeSalir() && currentRoom.getDescription().contains("sureste") && direction.equals("west")){
+            System.out.println("No puedes salir hasta que tengas las llaves");
         }
         else {
             anteriores.push(currentRoom);
@@ -139,5 +143,36 @@ public class Player
         else {
             System.out.println("No tienes ningún objeto en la mochila");
         }
+    }
+
+    /**
+     * Método para que el jugador se mueva de forma aleatoria
+     * a una de las posibles salidas de la sala en la que esta
+     */
+    public void movimientoAleatorio(){
+        Random rnd = new Random();
+        String[] listaSalidas = currentRoom.getExitString().split(" ");
+        setCurrentRoom(currentRoom.getExit(listaSalidas[rnd.nextInt(listaSalidas.length)]));
+    }
+
+    /**
+     * Método que muestra la habitacion en la que se encuentra el jugador
+     */
+    public Room getCurrentRoom(){
+        return currentRoom;
+    }
+    
+    /**
+     * Método que devuelve si el jugador puede salir
+     */
+    public boolean puedeSalir(){
+        boolean puedeSalir = false;
+        int i = 0;
+        for (Item item : mochila){
+            if (mochila.get(i).getNombreObjeto().equals("llaves")){
+                puedeSalir = true;
+            }
+        }
+        return puedeSalir;
     }
 }

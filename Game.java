@@ -1,4 +1,5 @@
 import java.util.Stack;
+import java.util.Random;
 
 /**
  *  This class is the main class of the "World of Zuul" application. 
@@ -21,6 +22,8 @@ public class Game
 {
     private Parser parser;
     private Player jugador;
+    private Player guardiaSeguridad;
+    private int turnos;
 
     /**
      * Create the game and initialise its internal map.
@@ -29,6 +32,8 @@ public class Game
     {
         parser = new Parser();
         jugador = new Player();
+        guardiaSeguridad = new Player();
+        turnos = 7;
         createRooms();
     }
 
@@ -54,16 +59,16 @@ public class Game
         sureste.addObjeto(new Item("portatil", 2f, true));
         cruce = new Room("en un cruce de pasillos");
         cruce.addObjeto(new Item("estanteria", 15f, false));
-        salida = new Room("fuera. Has encontrado la salida. Puedes volver a entrar o salir del juego escribiendo 'quit'");
+        salida = new Room("fuera.");
         salida.addObjeto(new Item("llaves", 0.75f, true));
 
         // initialise room exits
         inicial.setExit("west",oeste);
         inicial.setExit("east",cruce);
-        inicial.setExit("southwest",sureste);
+        inicial.setExit("southeast",sureste);
         oeste.setExit("east",inicial);
         oeste.setExit("south",suroeste);
-        suroeste.setExit("norte",oeste);
+        suroeste.setExit("north",oeste);
         este.setExit("west",cruce);
         noreste.setExit("south",cruce);
         sureste.setExit("north",cruce);
@@ -74,7 +79,10 @@ public class Game
         cruce.setExit("south",sureste);
         cruce.setExit("west",inicial);
         salida.setExit("east",sureste);
+
         jugador.setCurrentRoom(inicial);  // start game outside
+        guardiaSeguridad.setCurrentRoom(salida);
+        guardiaSeguridad.takeItem("llaves");
     }
 
     /**
@@ -88,9 +96,21 @@ public class Game
         // execute them until the game is over.
 
         boolean finished = false;
-        while (! finished) {
+        while (! finished && turnos > 0) {
             Command command = parser.getCommand();
             finished = processCommand(command);
+            if (jugador.getCurrentRoom().getDescription().equals("fuera.")){
+                finished = true;
+            }
+            else {
+                System.out.println("\nTe queda/n " + turnos + " turno/s");    
+            }
+        }
+        if (!finished && turnos == 0){
+            System.out.println("\nGAME OVER");
+        }
+        if (finished){
+            System.out.println("Enhorabuena, has encontrado la salida");
         }
         System.out.println("Thank you for playing.  Good bye.");
     }
@@ -106,7 +126,7 @@ public class Game
         System.out.println("Type " +  Option.HELP.getComando() + " if you need help.");
         System.out.println();
         jugador.printLocationInfo();
-        System.out.println();
+        System.out.println("\nTienes " + turnos + " turnos");
     }
 
     /**
@@ -131,6 +151,12 @@ public class Game
 
             case GO:
             jugador.goRoom(command);
+            guardiaSeguridad.movimientoAleatorio();
+            turnos--;
+            if (jugador.getCurrentRoom() == guardiaSeguridad.getCurrentRoom() && !jugador.puedeSalir()){
+                System.out.println("Has encontrado al guardia de seguridad");
+                System.out.println("Puedes pedirle las llaves con el comando '" + Option.ASK + "'\n");
+            }
             break;
 
             case QUIT:
@@ -142,11 +168,15 @@ public class Game
             break;
 
             case EAT:
+            guardiaSeguridad.movimientoAleatorio();
+            turnos--;
             System.out.println("You have eaten now and you are not hungry any more");
             break;
 
             case BACK:
             jugador.backLastRoom();
+            guardiaSeguridad.movimientoAleatorio();
+            turnos--;
             break;
 
             case TAKE:
@@ -159,6 +189,14 @@ public class Game
 
             case ITEMS:
             jugador.muestraInventario();
+            break;
+
+            case ASK:
+            guardiaSeguridad.dropItem("llaves");
+            jugador.takeItem("llaves");
+            guardiaSeguridad.movimientoAleatorio();
+            System.out.println("Ya tienes las llaves, ahora puedes salir\n");
+            turnos--;
             break;
 
             default:
@@ -200,5 +238,4 @@ public class Game
             return true;  // signal that we want to quit
         }
     }
-
 }
