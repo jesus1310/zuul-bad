@@ -33,7 +33,7 @@ public class Game
         parser = new Parser();
         jugador = new Player();
         guardiaSeguridad = new Player();
-        turnos = 7;
+        turnos = 10;
         createRooms();
     }
 
@@ -96,18 +96,23 @@ public class Game
         // execute them until the game is over.
 
         boolean finished = false;
-        while (! finished && turnos > 0) {
+        while (!finished && turnos > 0 && !finished && jugador.getEnergiaRestante() > 0) {
             Command command = parser.getCommand();
             finished = processCommand(command);
             if (jugador.getCurrentRoom().getDescription().equals("fuera.")){
                 finished = true;
             }
             else {
-                System.out.println("\nTe queda/n " + turnos + " turno/s");    
+                System.out.println("\nTe queda/n " + turnos + " turno/s");
             }
         }
         if (!finished && turnos == 0){
-            System.out.println("\nGAME OVER");
+            System.out.println("\nTe has quedado sin turnos");
+            System.out.println("GAME OVER");
+        }
+        if (!finished && jugador.getEnergiaRestante() <= 0){
+            System.out.println("\nTe has quedado sin energía");
+            System.out.println("GAME OVER");
         }
         if (finished){
             System.out.println("Enhorabuena, has encontrado la salida");
@@ -123,10 +128,10 @@ public class Game
         System.out.println();
         System.out.println("Welcome to the World of Zuul!");
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
-        System.out.println("Type " +  Option.HELP.getComando() + " if you need help.");
-        System.out.println();
+        System.out.println("Type " +  Option.HELP.getComando() + " if you need help.\n");
         jugador.printLocationInfo();
         System.out.println("\nTienes " + turnos + " turnos");
+        System.out.println("La energía está al " + jugador.getEnergiaRestante() * 10 + "%");
     }
 
     /**
@@ -157,6 +162,9 @@ public class Game
                 System.out.println("Has encontrado al guardia de seguridad");
                 System.out.println("Puedes pedirle las llaves con el comando '" + Option.ASK + "'\n");
             }
+            if (!jugador.getCurrentRoom().getDescription().equals("sureste") && !command.getSecondWord().equals("west")){
+                System.out.println("La energía está al " + jugador.getEnergiaRestante() * 10 + "%");
+            }
             break;
 
             case QUIT:
@@ -170,7 +178,8 @@ public class Game
             case EAT:
             guardiaSeguridad.movimientoAleatorio();
             turnos--;
-            System.out.println("You have eaten now and you are not hungry any more");
+            jugador.comer();
+            System.out.println("La energía está al " + jugador.getEnergiaRestante() * 10 + "%");
             break;
 
             case BACK:
@@ -216,9 +225,10 @@ public class Game
      */
     private void printHelp() 
     {
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
-        System.out.println();
+        System.out.println("\nEl juego consiste en buscar a un guardia que se mueve aleatoriamente por el mapa");
+        System.out.println("Cuando coincidas en la misma sala que él le podrás pedir las llaves y buscar la salida");
+        System.out.println("Si te estás quedando sin energía puedes volver a recuperarla, pero gastarás un turno");
+        System.out.println("\nPerderás si te quedas sin turnos o sin energía. Suerte\n");
         System.out.println("Your command words are:");
         parser.printCommands();
     }
