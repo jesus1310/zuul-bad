@@ -162,7 +162,7 @@ public class Game
                 System.out.println("Has encontrado al guardia de seguridad");
                 System.out.println("Puedes pedirle las llaves con el comando '" + Option.ASK + "'\n");
             }
-            if (!jugador.getCurrentRoom().getDescription().equals("sureste") && !command.getSecondWord().equals("west")){
+            if (jugador.getEnergiaRestante() > 0){
                 System.out.println("La energía está al " + jugador.getEnergiaRestante() * 10 + "%");
             }
             break;
